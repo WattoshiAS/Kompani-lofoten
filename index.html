@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kompani Lofoten — Forprosjekt</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --bg-deep: #0a0e17;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2235;
+    --bg-accent: #162032;
+    --border: rgba(255,255,255,0.06);
+    --border-accent: rgba(99,179,237,0.25);
+    --text-primary: #f0f4f8;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent: #63b3ed;
+    --accent-warm: #f6ad55;
+    --accent-green: #68d391;
+    --gradient-hero: linear-gradient(135deg, #0a0e17 0%, #1a2744 50%, #0f1729 100%);
+    --gradient-card: linear-gradient(180deg, rgba(17,24,39,0.95) 0%, rgba(15,23,41,0.98) 100%);
+    --gold: #d4a853;
+    --gold-dim: rgba(212,168,83,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: var(--gradient-hero);
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at 30% 50%, rgba(99,179,237,0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(212,168,83,0.03) 0%, transparent 50%);
+    animation: aurora 20s ease-in-out infinite alternate;
+  }
+
+  @keyframes aurora {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(-5%, 3%) rotate(2deg); }
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 800px; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    border: 1px solid var(--gold-dim);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2.5rem;
+    backdrop-filter: blur(10px);
+    background: rgba(212,168,83,0.05);
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    font-weight: 300;
+    max-width: 550px;
+    margin: 0 auto 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .hero-meta-item {
+    text-align: center;
+  }
+
+  .hero-meta-item .value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .hero-meta-item .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.2s;
+  }
+
+  .scroll-hint span {
+    display: block;
+    width: 20px; height: 32px;
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    position: relative;
+  }
+
+  .scroll-hint span::after {
+    content: '';
+    width: 3px; height: 8px;
+    background: var(--accent);
+    border-radius: 2px;
+    position: absolute;
+    top: 6px; left: 50%;
+    transform: translateX(-50%);
+    animation: scrollDot 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollDot {
+    0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 0.3; transform: translateX(-50%) translateY(10px); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,14,23,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  .nav-link {
+    padding: 1rem 1.25rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .nav-link:hover, .nav-link.active {
+    color: var(--text-primary);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ===== SECTIONS ===== */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+  }
+
+  .section-number {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 700px;
+    font-weight: 300;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-accent), transparent);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ===== CARDS ===== */
+  .phase-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .phase-grid { grid-template-columns: 1fr; }
+  }
+
+  .phase-card {
+    background: var(--gradient-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.4s ease;
+    cursor: default;
+  }
+
+  .phase-card:hover {
+    border-color: var(--border-accent);
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  .phase-card .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .phase-card.phase1 .card-icon { background: rgba(99,179,237,0.1); }
+  .phase-card.phase2 .card-icon { background: rgba(212,168,83,0.1); }
+
+  .phase-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .deliverable-list {
+    list-style: none;
+    margin-top: 1.25rem;
+  }
+
+  .deliverable-list li {
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .deliverable-list li:first-child { border-top: none; }
+
+  .del-title {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+  }
+
+  .del-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ===== ACCORDION ===== */
+  .accordion-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+
+  .accordion-item:hover { border-color: var(--border-accent); }
+
+  .accordion-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+  }
+
+  .accordion-trigger .arrow {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    transition: transform 0.3s ease;
+  }
+
+  .accordion-item.open .accordion-trigger .arrow {
+    transform: rotate(180deg);
+  }
+
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .accordion-item.open .accordion-body {
+    max-height: 600px;
+  }
+
+  .accordion-content {
+    padding: 0 1.5rem 1.5rem;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* ===== PRICE ===== */
+  .price-hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(180deg, rgba(212,168,83,0.03) 0%, transparent 100%);
+    border: 1px solid var(--gold-dim);
+    border-radius: 20px;
+    margin-bottom: 2rem;
+  }
+
+  .price-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .price-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .price-vat {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .price-note {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .price-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .price-details { grid-template-columns: 1fr; }
+  }
+
+  .price-detail-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .price-detail-card .pd-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .price-detail-card .pd-value {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+
+  /* ===== TIMELINE ===== */
+  .timeline {
+    position: relative;
+    margin-top: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 24px;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent), var(--gold), var(--accent-green));
+    border-radius: 2px;
+  }
+
+  .timeline-step {
+    display: flex;
+    gap: 1.75rem;
+    padding: 1.5rem 0;
+    position: relative;
+  }
+
+  .timeline-dot {
+    width: 50px; height: 50px;
+    min-width: 50px;
+    border-radius: 50%;
+    background: var(--bg-deep);
+    border: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--accent);
+    z-index: 1;
+  }
+
+  .timeline-step:nth-child(2) .timeline-dot { border-color: var(--accent); color: var(--accent); }
+  .timeline-step:nth-child(3) .timeline-dot { border-color: var(--gold); color: var(--gold); }
+  .timeline-step:nth-child(4) .timeline-dot { border-color: var(--accent-green); color: var(--accent-green); }
+
+  .timeline-content h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+  }
+
+  .timeline-content p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+  }
+
+  .timeline-content .responsible {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: rgba(99,179,237,0.08);
+    color: var(--accent);
+    border: 1px solid rgba(99,179,237,0.15);
+  }
+
+  /* ===== FUTURE MODEL ===== */
+  .model-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .model-grid { grid-template-columns: 1fr; }
+  }
+
+  .model-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .model-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .model-card:nth-child(1)::before { background: var(--accent); }
+  .model-card:nth-child(2)::before { background: var(--gold); }
+  .model-card:nth-child(3)::before { background: var(--accent-green); }
+
+  .model-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    border-color: var(--border-accent);
+  }
+
+  .model-card .mc-phase {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .model-card h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .model-card p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .model-card .mc-parties {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ===== CONTACT ===== */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+
+  .contact-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .contact-card:hover { border-color: var(--border-accent); }
+
+  .contact-card .cc-company {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .contact-card .cc-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .contact-card .cc-detail {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  .contact-card a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .contact-card a:hover { text-decoration: underline; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 4rem 2rem;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ===== FADE IN ON SCROLL ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Konfidensielt · April 2026</div>
+    <h1>Kompani Lofoten<br><em>Forprosjekt</em></h1>
+    <p class="hero-sub">Mining-integrert varmesystem og fleks-kapasitet for øy-destinasjonen i Lofoten</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="value">500 kW</div>
+        <div class="label">Totalt effektbehov</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="value">300 kW</div>
+        <div class="label">Fleksibel last</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="value">NO4</div>
+        <div class="label">Prisområde</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span></span></div>
+</section>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#bakgrunn" class="nav-link">Bakgrunn</a>
+    <a href="#leveranser" class="nav-link">Leveranser</a>
+    <a href="#detaljer" class="nav-link">Detaljer</a>
+    <a href="#pris" class="nav-link">Pris</a>
+    <a href="#neste" class="nav-link">Neste steg</a>
+    <a href="#videre" class="nav-link">Videre modell</a>
+    <a href="#kontakt" class="nav-link">Kontakt</a>
+  </div>
+</nav>
+
+<!-- BAKGRUNN -->
+<section class="section reveal" id="bakgrunn">
+  <div class="section-header">
+    <div class="section-number">01 — Bakgrunn</div>
+    <h2 class="section-title">Energi og varme fra Bitcoin-mining</h2>
+  </div>
+  <p class="section-desc" style="margin-bottom:1.5rem;">
+    Etter møtet 9.&nbsp;april og den påfølgende fleksibilitetsanalysen har Wattoshi og Cyberhive sammenstilt et forprosjekt-tilbud for øy-destinasjonen i Lofoten. Anlegget har et samlet effektbehov på rundt 500&nbsp;kW — hvorav 200&nbsp;kW er stiv resort-last og 300&nbsp;kW er fleksibel mining-last som fungerer som varmekilde for basseng og oppvarming. Nettilkobling på 400&nbsp;kW TN-nett via Noranett skal finansieres av prosjektet.
+  </p>
+  <p class="section-desc">
+    Gjennom vår konsesjons-partner har vi fått bekreftet at Noranett har reelle kapasitetsutfordringer i Lofoten-området, og at det er åpning for dialog om lokal fleks. En øy med 300&nbsp;kW regulerbar last, solceller og batteri kan bli en god fleks-ressurs for Noranett, og gi Kompani Lofoten en solid inntektsside på toppen av mining-driften.
+  </p>
+</section>
+
+<div class="divider"></div>
+
+<!-- LEVERANSER -->
+<section class="section reveal" id="leveranser">
+  <div class="section-header">
+    <div class="section-number">02 — Leveranser</div>
+    <h2 class="section-title">To faser, én kartlegging</h2>
+    <p class="section-desc">Forprosjektet gir dere et konkret grunnlag for å ta investeringsbeslutning på både mining-installasjon og fleksibilitet.</p>
+  </div>
+
+  <div class="phase-grid">
+    <div class="phase-card phase1">
+      <div class="card-icon">⚡</div>
+      <h3>Fase 1 — Mining og varmesystem</h3>
+      <p style="font-size:0.85rem; color:var(--text-secondary);">Cyberhive + Wattoshi</p>
+      <ul class="deliverable-list">
+        <li><span class="del-title">Hardware-spesifikasjon</span><span class="del-desc">Valg og priskalkyle for Antminer Hydro (S19/S21/S21 XP Hyd), racking, kabling og komponenter for 300 kW.</span></li>
+        <li><span class="del-title">Prinsippskisser</span><span class="del-desc">Rørtegning og elektro-skisse for varmesystemet med platevarmeveksler, akkumulatortank og kjølesløyfe.</span></li>
+        <li><span class="del-title">Inntektsestimat mining</span><span class="del-desc">Hashrate, effektforbruk og modellerte miner-inntekter basert på kapasitet og NO4-strømpris.</span></li>
+        <li><span class="del-title">Kontrollsystem-skisse</span><span class="del-desc">Automatisk regulering mellom mining, eksport, solceller og batteri — integrert mot resort-driften.</span></li>
+        <li><span class="del-title">Koordineringsplan</span><span class="del-desc">Grensesnitt mot Lofotentekniske og Rogaland Elektro.</span></li>
+      </ul>
+    </div>
+
+    <div class="phase-card phase2">
+      <div class="card-icon">🔗</div>
+      <h3>Fase 2 — Fleksibilitet og støtte</h3>
+      <p style="font-size:0.85rem; color:var(--text-secondary);">Wattoshi + konsesjons-partner</p>
+      <ul class="deliverable-list">
+        <li><span class="del-title">Fleks-kartlegging</span><span class="del-desc">Vurdering av NODES LongFlex/ShortFlex, FCR/mFRR og lokalt Noranett-marked for NO4.</span></li>
+        <li><span class="del-title">Noranett-dialog</span><span class="del-desc">Formell dialog via konsesjons-partner om lokal fleks-avtale og mulig pilotstatus.</span></li>
+        <li><span class="del-title">Fleksinntekt-estimat</span><span class="del-desc">Modellert årsinntekt gitt 300 kW regulerbar last, batteri-størrelse og symmetrisk respons.</span></li>
+        <li><span class="del-title">Støttefinansiering batteri</span><span class="del-desc">Søknadsgrunnlag for 400 NOK/kW-ordningen. Innovasjon Norge-dialogen videreføres.</span></li>
+        <li><span class="del-title">Fleks-avtaler og oppkobling</span><span class="del-desc">Skisse av kontrakter og tekniske grensesnitt for aktivering.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DETALJER (ACCORDION) -->
+<section class="section reveal" id="detaljer">
+  <div class="section-header">
+    <div class="section-number">03 — Detaljer</div>
+    <h2 class="section-title">Spørsmål og avklaringer</h2>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-trigger" onclick="toggleAccordion(this)">
+      Hva inkluderer prinsippskissene?
+      <span class="arrow">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        Prinsippskissene dekker rørtegning og elektro-oppsett for 300 kW Antminer Hydro varmesystem med platevarmeveksler (BPHE, 300–400 kW), dobbeltmantlet akkumulatortank (2000–5000 L), kjølesløyfe for sommeroverskudd, og termisk styring mot basseng og bygningsvarme. Skissene er basert på Cyberhive Rev. 8-tegningen tilpasset Kompani Lofoten.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-trigger" onclick="toggleAccordion(this)">
+      Hva betyr det at Noranett har kapasitetsutfordringer?
+      <span class="arrow">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        Noranett har bekreftet at strømnettet i Lofoten har begrenset kapasitet. Det betyr at en regulerbar last på 300 kW — som kan skrus av ved signal — er verdifull for dem. Dere kan potensielt inngå fleks-avtaler der Kompani Lofoten får betalt for å redusere forbruk i perioder med høy nettbelastning.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-trigger" onclick="toggleAccordion(this)">
+      Hva er 400 NOK/kW-ordningen?
+      <span class="arrow">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        En støtteordning for finansiering av batteri og tilgjengeliggjøring av fleksibel kapasitet. Søknadsprosessen tar ca. 3 måneder. Innovasjon Norge er allerede involvert i prosjektet, noe som styrker søknadsgrunnlaget.
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-trigger" onclick="toggleAccordion(this)">
+      Hva skjer etter forprosjektet?
+      <span class="arrow">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="accordion-content">
+        Dere står fritt til å velge videre løp når kartleggingen er levert. Forprosjektrapporten gir beslutningsgrunnlag for både fase 1 (hardware og installasjon) og fase 2 (fleks-aktivering og støttesøknader). Innkjøp og installasjon avtales separat.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRIS -->
+<section class="section reveal" id="pris">
+  <div class="section-header">
+    <div class="section-number">04 — Pris</div>
+    <h2 class="section-title">Investering</h2>
+  </div>
+
+  <div class="price-hero">
+    <div class="price-label">Fastpris forprosjekt</div>
+    <div class="price-amount">24 500,-</div>
+    <div class="price-vat">NOK ekskl. mva</div>
+    <p class="price-note">
+      Prisen er satt lavt fordi vi ønsker å få til dette prosjektet sammen med dere. Vi tror på konseptet og er villige til å legge inn vesentlig mer enn det fastprisen tilsier for at kartleggingen skal gi et solid beslutningsgrunnlag. Innkjøp og installasjon avtales separat.
+    </p>
+  </div>
+
+  <div class="price-details">
+    <div class="price-detail-card">
+      <div class="pd-label">Leveringstid</div>
+      <div class="pd-value">3 uker fra oppstart</div>
+      <p style="font-size:0.78rem; color:var(--text-muted); margin-top:0.5rem;">Med forbehold om at fase 2 (Noranett-dialog) tar lenger, og at søknadsprosessen for 400 NOK/kW krever ca. 3 måneder.</p>
+    </div>
+    <div class="price-detail-card">
+      <div class="pd-label">Betaling</div>
+      <div class="pd-value">50/50</div>
+      <p style="font-size:0.78rem; color:var(--text-muted); margin-top:0.5rem;">50 % ved oppstart, 50 % ved levering av forprosjektrapport og prinsippskisser.</p>
+    </div>
+    <div class="price-detail-card">
+      <div class="pd-label">Møter inkludert</div>
+      <div class="pd-value">Oppstart + leveranse</div>
+      <p style="font-size:0.78rem; color:var(--text-muted); margin-top:0.5rem;">Digitalt eller fysisk. Ekstra reise faktureres etter avtale.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- NESTE STEG -->
+<section class="section reveal" id="neste">
+  <div class="section-header">
+    <div class="section-number">05 — Neste steg</div>
+    <h2 class="section-title">Veien videre</h2>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="timeline-dot">1</div>
+      <div class="timeline-content">
+        <h4>Bekreftelse og signering</h4>
+        <p>Bekreftelse av tilbudet og signering av forprosjekt-avtale.</p>
+        <span class="responsible">Kompani Lofoten</span>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">2</div>
+      <div class="timeline-content">
+        <h4>Oppstartsmøte og datagrunnlag</h4>
+        <p>Gbnr, solcelle-kapasitet, strømleverandør og ønsket idriftsetting.</p>
+        <span class="responsible">Kompani Lofoten + Wattoshi</span>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">3</div>
+      <div class="timeline-content">
+        <h4>Gjennomføring</h4>
+        <p>Hardware-spec, prinsippskisser, fleks- og støttevurdering.</p>
+        <span class="responsible">Wattoshi + Cyberhive</span>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">4</div>
+      <div class="timeline-content">
+        <h4>Leveranse</h4>
+        <p>Forprosjektrapport og beslutningsunderlag for fase 1 og fase 2.</p>
+        <span class="responsible">Wattoshi + Cyberhive</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VIDERE MODELL -->
+<section class="section reveal" id="videre">
+  <div class="section-header">
+    <div class="section-number">06 — Videre modell</div>
+    <h2 class="section-title">Anbefalt samarbeid etter forprosjektet</h2>
+    <p class="section-desc">Dere står fritt til å velge videre løp. Her er vår anbefalte modell.</p>
+  </div>
+
+  <div class="model-grid">
+    <div class="model-card">
+      <div class="mc-phase">Fase 1</div>
+      <h4>Installasjon</h4>
+      <p>Levering, installasjon og idriftsetting av mining-last, varmesystem og kontrollpanel.</p>
+      <div class="mc-parties">Cyberhive (hardware) + Wattoshi (kontroll)</div>
+    </div>
+    <div class="model-card">
+      <div class="mc-phase">Fase 2</div>
+      <h4>Fleks-aktivering</h4>
+      <p>Avtaler mot Noranett og fleksmarked, samt støttesøknader for batteri og kapasitet.</p>
+      <div class="mc-parties">Wattoshi (FSP) + konsesjons-partner</div>
+    </div>
+    <div class="model-card">
+      <div class="mc-phase">Drift</div>
+      <h4>Løpende optimalisering</h4>
+      <p>Drift og optimalisering av mining + fleks med margin-/provisjonsmodell.</p>
+      <div class="mc-parties">Wattoshi (operatør) + Cyberhive (hardware)</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- KONTAKT -->
+<section class="section reveal" id="kontakt">
+  <div class="section-header">
+    <div class="section-number">07 — Kontakt</div>
+    <h2 class="section-title">Vi ser frem til samarbeidet</h2>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="cc-company">Wattoshi AS</div>
+      <div class="cc-name">Preben Alexander Lugg</div>
+      <div class="cc-detail">
+        <a href="mailto:preben@wattoshi.no">preben@wattoshi.no</a><br>
+        +47 976 92 052
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="cc-company">Cyberhive AS</div>
+      <div class="cc-name">Thomas &amp; Daniel</div>
+      <div class="cc-detail">
+        <a href="mailto:Thomas@cyberhive.no">Thomas@cyberhive.no</a><br>
+        <a href="mailto:Daniel@cyberhive.no">Daniel@cyberhive.no</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  Konfidensielt dokument — utarbeidet for Kompani Lofoten av Wattoshi AS og Cyberhive AS, april 2026.
+</footer>
+
+<script>
+  // Accordion
+  function toggleAccordion(btn) {
+    const item = btn.parentElement;
+    item.classList.toggle('open');
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Active nav
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.offsetTop - 100;
+      if (window.scrollY >= top) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
